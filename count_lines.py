@@ -5,10 +5,17 @@ import argparse
 import sys
 import time
 
-def count_lines_of_code(directory, exclude_folders=None, ignore_extensions=None):
-    total_lines = 0
-    file_count = 0
+def count_lines_of_code(file_path):
+    try:
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            lines = f.readlines()
+            return len(lines)
+    except (IOError, OSError) as e:
+        print(f"Error reading file: {file_path}. {e}", file=sys.stderr)
+        return 0
 
+def count_lines_parallel(directory, exclude_folders=None, ignore_extensions=None):
+    file_paths = []
     for root, dirs, files in os.walk(directory):
         # Exclude specific folders if provided
         if exclude_folders is not None:
@@ -20,16 +27,23 @@ def count_lines_of_code(directory, exclude_folders=None, ignore_extensions=None)
                 continue
 
             file_path = os.path.join(root, file)
-            try:
-                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-                    lines = f.readlines()
-                    total_lines += len(lines)
-            except (IOError, OSError) as e:
-                print(f"Error reading file: {file_path}. {e}", file=sys.stderr)
+            file_paths.append(file_path)
 
-            file_count += 1
+    total_lines = 0
+    try:
+        from tqdm import tqdm
+        progress_bar = tqdm(total=len(file_paths), desc="Counting lines in files")
+        for file_path in file_paths:
+            line_count = count_lines_of_code(file_path)
+            total_lines += line_count
+            progress_bar.update(1)
+        progress_bar.close()
+    except ImportError:
+        for file_path in file_paths:
+            line_count = count_lines_of_code(file_path)
+            total_lines += line_count
 
-    return total_lines, file_count
+    return total_lines, len(file_paths)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Count lines of code in a project, excluding specific folders and extensions.")
@@ -43,9 +57,10 @@ if __name__ == "__main__":
     ignored_extensions = args.ignore if args.ignore is not None else []
 
     start_time = time.time()
-    line_count, file_count = count_lines_of_code(project_directory, exclude_folders=excluded_folders, ignore_extensions=ignored_extensions)
+    line_count, file_count = count_lines_parallel(project_directory, exclude_folders=excluded_folders, ignore_extensions=ignored_extensions)
     end_time = time.time()
 
     print("Total lines of code:", line_count)
     print("Total files processed:", file_count)
     print("Execution time:", round(end_time - start_time, 2), "seconds")
+
