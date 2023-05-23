@@ -2,9 +2,12 @@
 
 import os
 import argparse
+import sys
+import time
 
 def count_lines_of_code(directory, exclude_folders=None, ignore_extensions=None):
     total_lines = 0
+    file_count = 0
 
     for root, dirs, files in os.walk(directory):
         # Exclude specific folders if provided
@@ -17,11 +20,16 @@ def count_lines_of_code(directory, exclude_folders=None, ignore_extensions=None)
                 continue
 
             file_path = os.path.join(root, file)
-            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
-                lines = f.readlines()
-                total_lines += len(lines)
+            try:
+                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                    lines = f.readlines()
+                    total_lines += len(lines)
+            except (IOError, OSError) as e:
+                print(f"Error reading file: {file_path}. {e}", file=sys.stderr)
 
-    return total_lines
+            file_count += 1
+
+    return total_lines, file_count
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Count lines of code in a project, excluding specific folders and extensions.")
@@ -34,5 +42,10 @@ if __name__ == "__main__":
     excluded_folders = args.exclude if args.exclude is not None else []
     ignored_extensions = args.ignore if args.ignore is not None else []
 
-    line_count = count_lines_of_code(project_directory, exclude_folders=excluded_folders, ignore_extensions=ignored_extensions)
+    start_time = time.time()
+    line_count, file_count = count_lines_of_code(project_directory, exclude_folders=excluded_folders, ignore_extensions=ignored_extensions)
+    end_time = time.time()
+
     print("Total lines of code:", line_count)
+    print("Total files processed:", file_count)
+    print("Execution time:", round(end_time - start_time, 2), "seconds")
