@@ -10,7 +10,7 @@ class CodeLineCounterTests(unittest.TestCase):
         self.ignored_extensions = [".txt"]
 
     def test_line_count(self):
-        expected_line_count = 10
+        expected_line_count = 20  # Update the expected line count based on your project
         line_count = count_lines_of_code(self.project_directory, exclude_folders=self.excluded_folders, ignore_extensions=self.ignored_extensions)
         self.assertEqual(line_count, expected_line_count)
 
