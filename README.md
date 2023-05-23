@@ -40,7 +40,7 @@ If you don't wish to use the progress bar or prefer not to install the `tqdm` pa
 
 ## Example Usage
 
-Count the lines of code in a project directory:
+- Count the lines of code in a project directory:
 ```shell
 python count_lines.py /path/to/your/project
 ```
