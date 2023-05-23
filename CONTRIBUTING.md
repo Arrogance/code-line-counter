@@ -2,7 +2,7 @@
 Thank you for your interest in contributing to Code Line Counter! We welcome contributions from the community to help improve and enhance the project. Please take a moment to review the guidelines below.
 
 ## Table of Contents
-- [Contributing to Code Line Counter](#contributing)
+- [Contributing to Code Line Counter](#contributing-to-code-line-counter)
   - [Table of Contents](#table-of-contents)
   - [Getting Started](#getting-started)
     - [Setting Up the Project](#setting-up-the-project)
@@ -10,11 +10,9 @@ Thank you for your interest in contributing to Code Line Counter! We welcome con
     - [Creating a New Branch](#creating-a-new-branch)
   - [Making Contributions](#making-contributions)
     - [Code Style and Conventions](#code-style-and-conventions)
-    - [Tests](#tests)
     - [Commit Message Guidelines](#commit-message-guidelines)
   - [Submitting a Pull Request](#submitting-a-pull-request)
   - [Review Process](#review-process)
-  - [Code of Conduct](#code-of-conduct)
   - [License](#license)
 
 ## Getting Started
@@ -55,7 +53,7 @@ Thank you for your interest in contributing to Code Line Counter! We welcome con
 6. Fill out the pull request template with the necessary information.
 7. Click on the "Create pull request" button to submit your changes for review.
 
-### Review Process
+## Review Process
 - All pull requests will be reviewed by the project maintainers.
 - Feedback, suggestions, and necessary changes will be communicated through the pull request comments.
 - Once the changes are approved, they will be merged into the main repository.
