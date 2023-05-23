@@ -23,9 +23,24 @@ python count_lines.py [project_directory] [-e EXCLUDE_FOLDERS...] [-i IGNORE_EXT
 
 5. The script will display the total lines of code in the project, excluding the specified folders and file extensions.
 
-## Examples
+## Requirements
 
-- Count lines of code in a project without excluding any folders or file extensions:
+- Python 3.x
+
+## Optional Progress Bar
+
+The script can optionally utilize the `tqdm` package to display a progress bar during the line counting process. If the `tqdm` package is installed, the progress bar will be displayed. If it is not installed, a simple print statement will be used instead.
+
+To install the `tqdm` package, use the following command:
+```shell
+pip install tqdm
+```
+
+If you don't wish to use the progress bar or prefer not to install the `tqdm` package, you can still run the script without any issues.
+
+## Example Usage
+
+Count the lines of code in a project directory:
 ```shell
 python count_lines.py /path/to/your/project
 ```
